@@ -5,11 +5,11 @@
 		private $conn;
 
 
-		public function __construct() {//Objetos instanciados conectam automaticamento ao banco
+		public function __construct() {//Objetos instanciados conectam automaticamento ao banco.
 
 			$this->conn = new PDO("mysql:dbname=dbphp7; host=127.0.0.1", "root", "");
 
-		}
+		}//__contruct.
 
 
 		private function setParams($statement, $parameters = array())  {
@@ -20,14 +20,14 @@
 
 			}
 
-		}
+		}//setParams.
 
 
 		private function setParam($statement, $key, $value) {
 
 			$statement->bindParam($key, $value);
 
-		}
+		}//setParam.
 
 
 		public function query($rawQuery, $params = array()) {
@@ -40,7 +40,7 @@
 
 			return $stmt;
 
-		}
+		}//query.
 
 
 		public function select($rawQuery, $params = array()):array {
@@ -49,8 +49,8 @@
 
 			return $stmt->fetchALL(PDO::FETCH_ASSOC);
 
-		}
+		}//select.
 
-	}
+	}//Class Sql.
 
  ?>

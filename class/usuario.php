@@ -2,6 +2,7 @@
 
 	class Usuario {
 
+		//Atributos.
 		private $idusuario;
 		private $deslogin;
 		private $dessenha;
@@ -47,7 +48,8 @@
 		//=============================
 
 
-		public function loadById($id) {
+
+		public function loadById($id) {//Busca um usuario pelo ID.
 
 			$sql = new Sql();
 
@@ -66,7 +68,61 @@
 
 			}
 
-		}//loadById
+		}//loadById.
+
+
+
+		public static function getList() {//Lista todos os usuarios da tabela.
+
+			$sql = new Sql();
+
+			return $sql->select("SELECT * FROM tb_usuarios ORDER BY deslogin;");
+
+		}//function getList.
+
+
+
+		public static function search($login) {//Busca um usuario pelo login.
+
+			$sql = new Sql();
+
+			return $sql->select("SELECT * FROM tb_usuarios WHERE deslogin LIKE :LOGIN ORDER BY deslogin", array(
+				":LOGIN"=>"%".$login."%"
+			));
+
+		}//function search.
+
+
+
+		public function login($login, $password) {//Carrega um usuario autenticado(login e password).
+
+			$sql = new Sql();
+
+			$result = $sql->select("SELECT * FROM tb_usuarios WHERE deslogin = :LOGIN AND dessenha = :PASSWORD", array(
+				":LOGIN"=>$login,
+				":PASSWORD"=>$password
+			)); 
+
+			if (count($result) > 0 ) {
+				
+				$row = $result[0];
+
+				$this->setIdusuario($row['idusuario']);
+				$this->setDeslogin($row['deslogin']);
+				$this->setDessenha($row['dessenha']);
+				$this->setDtcadastro(new DateTime($row['dtcadastro']));
+
+			} else {
+
+				throw new Exception("Login e/ou senha inválidos");
+				
+
+			}
+
+
+
+		}//function login.
+
 
 
 		public function __toString() {
@@ -78,9 +134,9 @@
 				"dtcadastro"=>$this->getDtcadastro()->format("d/m/Y H:i:s")
 			));
 
-		}//toString
+		}//toString.
 
 
-	}//Class Usuario
+	}//Class Usuario.
 
  ?>
